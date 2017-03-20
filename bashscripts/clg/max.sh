@@ -1,5 +1,5 @@
-#A shell script to find the max of three nos
 #!/bin/bash
+#A shell script to find the max of three nos
 read -p "Enter first number: " x
 echo ""
 read -p "Enter second number: " y
