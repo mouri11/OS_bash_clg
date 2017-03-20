@@ -1,3 +1,4 @@
+#A shell script to find the max of three nos
 #!/bin/bash
 read -p "Enter first number: " x
 echo ""
