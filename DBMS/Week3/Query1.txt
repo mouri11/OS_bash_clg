@@ -1,0 +1,115 @@
+1. Show player name, team id,stadium and mdate for every german player
+
+select Goal.Player,Goal.TeamID,Game.Stadium,Game.MDate from Goal
+join Game on Goal.MATCHID=Game.ID
+where goal.teamid='GER' 
+
+Result:
+
+"PLAYER","TEAMID","STADIUM","MDATE"
+"Mario Gómez","GER","Arena Lviv","09-JUN-12"
+"Mario Gómez","GER","Metalist Stadium","13-JUN-12"
+"Mario Gómez","GER","Metalist Stadium","13-JUN-12"
+"Lars Bender","GER","Arena Lviv","17-JUN-12"
+"Lukas Podolski","GER","Arena Lviv","17-JUN-12"
+
+
+2. Show team1,team2, & player for every goal scored by a player called 'Mario'
+
+select Game.team1, Game.team2, Goal.Player from Goal
+join Game on Goal.MATCHID=Game.ID
+where goal.matchid=game.id and goal.player like 'Mario%' 
+
+Result:
+
+"TEAM1","TEAM2","PLAYER"
+"GER","POR","Mario Gómez"
+"NED","GER","Mario Gómez"
+"NED","GER","Mario Gómez"
+"IRL","CRO","Mario Mandžukic"
+"IRL","CRO","Mario Mandžukic"
+"ITA","CRO","Mario Mandžukic"
+"ITA","IRL","Mario Balotelli"
+
+
+3. Show player, teamid,coach,gtime for all goals scored in the first 10 minutes.
+
+select Goal.Player, Goal.TeamID,eteam.coach,goal.gtime from Goal
+join eteam on Goal.teamID=ETeam.ID
+where goal.gtime <= 10
+
+Result:
+"PLAYER","TEAMID","COACH","GTIME"
+"Václav Pilar","CZE","Michal Bílek","6"
+"Petr Jirácek","CZE","Michal Bílek","3"
+"Fernando Torres","ESP","Vicente del Bosque","4"
+"Mario Mandžukic","CRO","Slaven Bilic","3"
+
+4. List the dates of the matches and the name of the team in which 'Fernando Santos' was the team1 coach.
+
+select Game.mdate, ETeam.teamname from Game
+join eteam on Game.Team1=ETeam.ID
+where coach='Fernando Santos'
+
+Result:
+
+"MDATE","TEAMNAME"
+"12-JUN-12","Greece"
+"16-JUN-12","Greece"
+
+
+5. List the player for every goal scored in a game  whre the stadium was 'National Stadium, Warsaw'
+
+select Goal.player from Game
+join goal on Goal.matchid=game.ID
+where stadium='National Stadium, Warsaw'
+
+Result:
+
+"PLAYER"
+"Robert Lewandowski"
+"Dimitris Salpingidis"
+"Jakub Blaszczykowski"
+"Alan Dzagoev"
+"Giorgos Karagounis"
+
+
+6. Show the name of the player who scored a goal against Germany('GER')
+
+select goal.player from goal
+join game on goal.matchid=game.id
+where (game.team2='GER' or game.team1='GER') and goal.teamid!='GER'
+
+Result:
+
+"PLAYER"
+"Robin van Persie"
+"Michael Krohn-Dehli"
+
+
+7. Show the stadium and the number of goals scored in each stadium. Use -> count(*)
+
+select game.stadium,count(*) from game
+join goal on goal.matchid=game.id
+group by game.stadium
+order by count(*) asc
+
+Result:
+
+"STADIUM","COUNT(*)"
+"Donbass Arena","2"
+"Olimpiyskiy National Sports Complex","3"
+"National Stadium, Warsaw","5"
+"Metalist Stadium","7"
+"PGE Arena Gdansk","7"
+"Stadion Miejski (Poznan)","8"
+"Stadion Miejski (Wroclaw)","9"
+"Arena Lviv","9"
+
+
+8. In query every goal is listed. If team2 scores a goal.the a1 appears in a column named score2, otherwise there is 
+a0. Sum this column to get a count of the goals scored by team2. Show results in a table where columns are mdate,
+team1,score1,team2,score2. Sort results by mdate,,matchid,team1,team2. Use->sum(case when teamid=team1 then 1 
+else 0 end)<- to calculate value of score.
+
+ 
